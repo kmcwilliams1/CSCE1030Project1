@@ -1,0 +1,3 @@
+C:/Users/kmac5/CLionProjects/Project1CSCE1030/cmake-build-debug/CMakeFiles/Project1CSCE1030.dir
+C:/Users/kmac5/CLionProjects/Project1CSCE1030/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/kmac5/CLionProjects/Project1CSCE1030/cmake-build-debug/CMakeFiles/rebuild_cache.dir
