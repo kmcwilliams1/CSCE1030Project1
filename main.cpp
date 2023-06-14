@@ -39,43 +39,73 @@ int changeNumFunc(int &leftNum, int &rightNum) {
 };
 
 int guessNumFunc(int leftNum, int rightNum, int &lastGuessNum, int &lifePoints, int &guessNum , int &displayNum) {
+
+    // this happens when the person has not displayed a number yet and points are not reduced
     if(displayNum == 0) {
+        if (guessNum == lastGuessNum) { cout << "You just guessed that number." << endl;  return lifePoints && lastGuessNum && guessNum && displayNum && leftNum && rightNum;}
+
         if (leftNum < guessNum && guessNum < rightNum) {
-            cout << "You guessed correctly!" << endl;
-            cout << "Current score is: " << lifePoints << endl;
-            lastGuessNum = guessNum;
+            cout << "You guessed " << guessNum << "...\n";
+            cout << "You guessed correctly! +5" << endl;
             lifePoints += 5;
-        } else if (guessNum == lastGuessNum)
-            cout << "You just guessed that number." << endl;
-        else {
-            cout << "You guessed incorrectly." << endl;
-            cout << "Current score is: " << lifePoints << endl;
-            lifePoints -= 5;
-        }
-    } else if(displayNum != 0 ){
-        if (leftNum < guessNum && guessNum < rightNum) {
-            cout << "You guessed correctly!" << endl;
             cout << "Current score is: " << lifePoints << endl;
             lastGuessNum = guessNum;
-            lifePoints += 1;
-        } else if (guessNum == lastGuessNum)
-            cout << "You just guessed that number." << endl;
+        }
         else {
-            cout << "You guessed incorrectly." << endl;
+            cout << "You guessed " << guessNum << "...\n";
+            cout << "You guessed incorrectly. -5" << endl;
+            lifePoints -= 5;
             cout << "Current score is: " << lifePoints << endl;
-            lifePoints -= 10;
+            lastGuessNum = guessNum;
+
         }
     }
 
-    return lifePoints;
+    //this means the person has already displayed a number and the points are reduced
+    else if(displayNum != 0 ){
+        if (guessNum == lastGuessNum) { cout << "You just guessed that number." << endl;  return lifePoints && lastGuessNum && guessNum && displayNum && leftNum && rightNum;}
+
+        if (leftNum < guessNum && guessNum < rightNum) {
+            cout << "You guessed " << guessNum << "...\n";
+            cout << "You guessed correctly! +1" << endl;
+            lifePoints += 1;
+            cout << "Current score is: " << lifePoints << endl;
+            lastGuessNum = guessNum;
+
+
+        }
+        else {
+            cout << "You guessed " << guessNum << "...\n";
+            cout << "You guessed incorrectly. -10" << endl;
+            lifePoints -= 10;
+            cout << "Current score is: " << lifePoints << endl;
+            lastGuessNum = guessNum;
+
+        }
+    }
+
+    if (lifePoints <= 0) {
+        cout << "You have no more life points. Game over." << endl;
+        exit(0);
+    }
+
+
+    cout << "Play again? (y/n): ";
+    char playAgain;
+    cin >> playAgain;
+    if (playAgain == 'y' || playAgain == 'Y') {
+        return lifePoints && lastGuessNum && guessNum && displayNum && leftNum && rightNum;
+    } else if (playAgain == 'n' || playAgain == 'N') {
+        exit(0);
+    }
 };
 
-void displayNumFunc(int choice, int leftNum, int rightNum, int &displayNum) {
+int displayNumFunc(int choice, int leftNum, int rightNum, int &displayNum) {
     if (displayNum != leftNum && displayNum != rightNum) {
         choice == displayLeft ? displayNum = leftNum : displayNum = rightNum;
-        cout << "The number is " << displayNum << endl;
-    }
-    else cout << "You already displayed a number." << endl;
+        choice == displayLeft ? cout << "The lower number is " << displayNum << endl : cout << "The higher number is " << displayNum << endl;
+    } else cout << "You already displayed a number." << endl;
+    return displayNum && leftNum && rightNum;
 };
 
 void terminateFunc() {
@@ -83,14 +113,9 @@ void terminateFunc() {
     exit(0);
 };
 
-void playGame() {
+void displayScreen(int leftNum, int rightNum, int &displayNum, int &lastGuessNum, int &lifePoints, int &guessNum){
 
-    int lifePoints = 100;
-    MenuChoice choice;  // Initialize 'choice' to a default value
-    int leftNum, rightNum, guessNum, lastGuessNum;
-    int displayNum = 0;
-
-    changeNumFunc(leftNum, rightNum);
+    MenuChoice choice;
 
     cout << "Enter your choice:"
          << "\n1. Display left"
@@ -121,11 +146,23 @@ void playGame() {
                 break;
             case quit:
                 terminateFunc();
+                break;
             default:
                 cout << "Not a valid selection, sorry!" << endl;
                 break;
         }
     }
+
+}
+
+void playGame() {
+
+    int lifePoints = 100;
+    int leftNum, rightNum, guessNum, lastGuessNum;
+    int displayNum = 0;
+
+    changeNumFunc(leftNum, rightNum);
+    displayScreen(leftNum, rightNum, displayNum, lastGuessNum, lifePoints, guessNum);
 
 }
 
