@@ -60,9 +60,25 @@ int main() {
 
 
 
+
     // starting menu
     cout << "Enter your name: ";
     getline(cin, playerName);
+    for(int i=0;i<playerName.length();i++){
+        if((!isalpha(playerName.at(i)))&&(playerName.at(i)!=' ')){
+            cout<<"Invalid name. Name may only contain letters"<<endl;
+            cout<<"Enter your name: ";
+            getline(cin,playerName);
+        }
+    }
+    for(int i=0;i<playerName.length();i++){
+        if(islower(playerName.at(0))){
+            playerName.at(0)=toupper(playerName.at(0));
+        }
+        else if(playerName.at(i)==' '){
+            playerName.at(i+1)=toupper(playerName.at(i+1));
+        }
+    }
     cout << "\nWelcome to the game, " << playerName << endl;
     cout << "*******************************" << endl;
 
